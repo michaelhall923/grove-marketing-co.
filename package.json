@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run export:content && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "export:content": "node scripts/export-builder-content.mjs",
     "lint": "eslint .",

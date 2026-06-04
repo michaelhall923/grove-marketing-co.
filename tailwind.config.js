@@ -86,6 +86,12 @@ export default {
         250: '62.5rem',
         300: '75rem',
       },
+      lineHeight: {
+        16: '4rem',
+        18: '4.5rem',
+        22: '5.5rem',
+        24: '6rem',
+      },
       borderRadius: {
         '4xl': '2rem',
       },

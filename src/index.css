@@ -149,33 +149,12 @@ html {
     }
   }
 
-  --animate-sun: fade-in 0.8s ease-out forwards;
-  --animate-slide-in-bottom: slide-in-bottom 0.8s ease-out forwards;
-  --animate-slide-in-left: slide-in-left 1.6s ease-out forwards;
-  --animate-surfer: surfer 2.4s ease-out forwards, boat-wave 3.2s ease-in-out infinite 3.4s;
-  --animate-rocket: slide-in-bottom 2.4s ease-out forwards;
-  --animate-wave: wave 3.2s ease-in-out 0.3s infinite;
-  --animate-ocean-top: wave 3.2s ease-in-out infinite;
-  --animate-ocean-left: wave 3.2s ease-in-out infinite;
-  --animate-ocean-right: wave 3.2s ease-in-out infinite;
-  --animate-boat: boat 3.4s ease-out forwards, boat-wave 3.2s ease-in-out infinite 3.4s;
-  --animate-smoke-1: fade-in 0.8s ease-out forwards;
-  --animate-smoke-2: fade-in 0.8s ease-out forwards;
-  --animate-smoke-3: fade-in 0.8s ease-out forwards 0.4s;
-  --animate-smoke-4: fade-in 0.8s ease-out forwards 0.8s;
-  --animate-smoke-5: fade-in 0.8s ease-out forwards 1.2s;
-  --animate-smoke-6: fade-in 0.8s ease-out forwards 1.2s;
-  --animate-smoke-7: fade-in 0.8s ease-out forwards 1.6s;
-  --animate-smoke-8: fade-in 0.8s ease-out forwards 2s;
-  --animate-dolphin: dolphin 2s ease-in-out forwards, boat-wave 3.2s ease-in-out infinite 2s;
-  --animate-jellyfish: jellyfish 3s ease-in-out forwards, boat-wave 6.4s ease-in-out infinite 3s;
-  --animate-fish: fish 1.6s ease-out forwards, boat-wave 3.2s ease-in-out infinite 1.6s;
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 0 0% 4%;
+    --foreground: 0 0% 93%;
+    --color-background: hsl(var(--background));
+    --color-foreground: hsl(var(--foreground));
   }
 }
 

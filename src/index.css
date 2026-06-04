@@ -1,8 +1,26 @@
-@import 'tailwindcss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: 0 0% 100%;
+  --foreground: 0 0% 9%;
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-grove-50: hsl(41 100% 96%);
+  --color-grove-100: hsl(37 90% 85%);
+  --color-grove-200: hsl(37 100% 80%);
+  --color-grove-300: hsl(34 100% 71%);
+  --color-grove-400: hsl(32 86% 62%);
+  --color-grove-500: hsl(28 81% 54%);
+  --color-grove-600: hsl(24 76% 51%);
+  --color-grove-700: hsl(23 76% 42%);
+  --color-grove-800: hsl(23 77% 33%);
+  --color-grove-900: hsl(22 80% 23%);
+  --font-sans: system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
+  --font-header: 'Franklin Gothic Condensed', sans-serif;
+  --font-copy: 'Georgia', serif;
 }
 
 html {
@@ -16,25 +34,7 @@ html {
   font-style: normal;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-grove-50: #fff9ec;
-  --color-grove-100: #fbe2b6; /* new anchor */
-  --color-grove-200: #ffd79a;
-  --color-grove-300: #ffc36c;
-  --color-grove-400: #f2a749;
-  --color-grove-500: #e88b2b;
-  --color-grove-600: #e27c22; /* anchor */
-  --color-grove-700: #bd6219;
-  --color-grove-800: #974d13;
-  --color-grove-900: #6a340c;
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-header: 'Franklin Gothic Condensed', sans-serif;
-  --font-copy: 'Georgia', serif;
-
-  @keyframes fade-in {
+@keyframes fade-in {
     0% {
       opacity: 0;
     }

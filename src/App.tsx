@@ -1,3 +1,4 @@
+import { PreviewErrorFallback } from '@/components/ErrorBoundary';
 import Layout from '@/Layout';
 import ArticlePage from '@/pages/articles/ArticlePage';
 import AboutPage from '@/pages/AboutPage';
@@ -13,6 +14,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 const router = createBrowserRouter([
   {
     element: <Layout />,
+    errorElement: <PreviewErrorFallback message="A route failed to render." />,
     children: [
       { index: true, element: <Home /> },
       { path: 'services/web-development', element: <WebDevelopment /> },

@@ -23,7 +23,10 @@ function withWidthParam(src: string, width: number): string {
 }
 
 export default function PhotoGallery({ items }: PhotoGalleryProps) {
-  const safeItems = Array.isArray(items) ? items.filter((item) => item?.imageUrl) : [];
+  const safeItems = useMemo(
+    () => (Array.isArray(items) ? items.filter((item) => item?.imageUrl) : []),
+    [items],
+  );
   const [isOpen, setIsOpen] = useState(false);
   const [index, setIndex] = useState(0);
 
@@ -58,17 +61,20 @@ export default function PhotoGallery({ items }: PhotoGalleryProps) {
 
   const openAt = useCallback(
     (i: number) => {
-      if (!canOpen) return; // no-op on mobile/touch
+      if (!canOpen || safeItems.length === 0) return; // no-op on mobile/touch or empty galleries
       setIndex(i);
       setIsOpen(true);
     },
-    [canOpen],
+    [canOpen, safeItems.length],
   );
 
   const close = useCallback(() => setIsOpen(false), []);
-  const next = useCallback(() => setIndex((i) => (i + 1) % safeItems.length), [safeItems.length]);
+  const next = useCallback(
+    () => setIndex((i) => (safeItems.length ? (i + 1) % safeItems.length : 0)),
+    [safeItems.length],
+  );
   const prev = useCallback(
-    () => setIndex((i) => (i - 1 + safeItems.length) % safeItems.length),
+    () => setIndex((i) => (safeItems.length ? (i - 1 + safeItems.length) % safeItems.length : 0)),
     [safeItems.length],
   );
 

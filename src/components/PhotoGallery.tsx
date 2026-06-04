@@ -23,18 +23,20 @@ function withWidthParam(src: string, width: number): string {
 }
 
 export default function PhotoGallery({ items }: PhotoGalleryProps) {
+  const safeItems = Array.isArray(items) ? items.filter((item) => item?.imageUrl) : [];
   const [isOpen, setIsOpen] = useState(false);
   const [index, setIndex] = useState(0);
 
   // Build 768px thumbnails
   const thumbs = useMemo(
-    () => items.map((it) => ({ ...it, thumbUrl: withWidthParam(it.imageUrl, 768) })),
-    [items],
+    () => safeItems.map((it) => ({ ...it, thumbUrl: withWidthParam(it.imageUrl, 768) })),
+    [safeItems],
   );
 
   // Determine if lightbox should be enabled (desktop + precise pointer)
   const [canOpen, setCanOpen] = useState(false);
   useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return;
     const mqDesktop = window.matchMedia('(min-width: 768px)'); // md and up
     const mqFine = window.matchMedia('(pointer: fine)'); // mouse/trackpad
 
@@ -64,13 +66,14 @@ export default function PhotoGallery({ items }: PhotoGalleryProps) {
   );
 
   const close = useCallback(() => setIsOpen(false), []);
-  const next = useCallback(() => setIndex((i) => (i + 1) % items.length), [items.length]);
+  const next = useCallback(() => setIndex((i) => (i + 1) % safeItems.length), [safeItems.length]);
   const prev = useCallback(
-    () => setIndex((i) => (i - 1 + items.length) % items.length),
-    [items.length],
+    () => setIndex((i) => (i - 1 + safeItems.length) % safeItems.length),
+    [safeItems.length],
   );
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     const onPop = () => setIsOpen(false);
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
@@ -109,7 +112,7 @@ export default function PhotoGallery({ items }: PhotoGalleryProps) {
 
       {isOpen && canOpen && (
         <Lightbox
-          items={items} // full-size URLs for the overlay
+          items={safeItems} // full-size URLs for the overlay
           index={index}
           onClose={close}
           onNext={next}

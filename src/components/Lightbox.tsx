@@ -16,6 +16,8 @@ type LightboxProps = {
 
 export default function Lightbox({ items, index, onClose, onNext, onPrev }: LightboxProps) {
   const [mounted, setMounted] = useState(false);
+  const safeIndex = items.length > 0 ? Math.min(Math.max(index, 0), items.length - 1) : 0;
+  const item = items[safeIndex];
 
   // lock body scroll
   useEffect(() => {
@@ -48,14 +50,14 @@ export default function Lightbox({ items, index, onClose, onNext, onPrev }: Ligh
 
   // preload neighbors (use the DOM Image constructor explicitly)
   useEffect(() => {
-    if (items.length < 2) return;
-    const nextIdx = (index + 1) % items.length;
-    const prevIdx = (index - 1 + items.length) % items.length;
+    if (typeof window === 'undefined' || items.length < 2) return;
+    const nextIdx = (safeIndex + 1) % items.length;
+    const prevIdx = (safeIndex - 1 + items.length) % items.length;
     const n = new window.Image();
     n.src = items[nextIdx].imageUrl;
     const p = new window.Image();
     p.src = items[prevIdx].imageUrl;
-  }, [index, items]);
+  }, [safeIndex, items]);
 
   // touch swipe
   const startX = useRef(0);
@@ -99,13 +101,13 @@ export default function Lightbox({ items, index, onClose, onNext, onPrev }: Ligh
     }
   }
 
-  const item = items[index];
+  if (!item) return null;
 
   const overlay = (
     <div
       role="dialog"
       aria-modal="true"
-      aria-label={`${item.title}. Photo ${index + 1} of ${items.length}.`}
+      aria-label={`${item.title || 'Photo'}. Photo ${safeIndex + 1} of ${items.length}.`}
       className="fixed inset-0 z-[999] bg-black/85 backdrop-blur-sm"
       onKeyDown={handleTrap}
       onClick={onClose}
@@ -121,7 +123,7 @@ export default function Lightbox({ items, index, onClose, onNext, onPrev }: Ligh
           <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/10">
             <NextImage
               src={item.imageUrl}
-              alt={item.title}
+              alt={item.title || 'Gallery photo'}
               fill
               sizes="100vw"
               priority
@@ -133,7 +135,7 @@ export default function Lightbox({ items, index, onClose, onNext, onPrev }: Ligh
             <div className="pointer-events-auto">
               <p className="text-sm font-semibold text-white md:text-base">{item.title}</p>
               <p className="text-xs text-white/70">
-                {index + 1} / {items.length}
+                {safeIndex + 1} / {items.length}
               </p>
             </div>
           </div>

@@ -9,7 +9,7 @@ export default function ContactForm({ title }) {
   const SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
 
   useEffect(() => {
-    if (!SITE_KEY || document.querySelector('script[data-recaptcha]')) return;
+    if (!SITE_KEY || typeof document === 'undefined' || document.querySelector('script[data-recaptcha]')) return;
     const script = document.createElement('script');
     script.src = `https://www.google.com/recaptcha/api.js?render=${SITE_KEY}`;
     script.async = true;
@@ -44,6 +44,7 @@ export default function ContactForm({ title }) {
 
   async function getRecaptchaToken(action) {
     if (!SITE_KEY) throw new Error('Missing reCAPTCHA site key');
+    if (typeof window === 'undefined') throw new Error('reCAPTCHA is not available');
     // wait until grecaptcha is ready
     await new Promise((resolve) => {
       if (typeof window !== 'undefined' && window.grecaptcha && window.grecaptcha.ready) {

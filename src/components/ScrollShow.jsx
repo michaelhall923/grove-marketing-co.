@@ -5,11 +5,16 @@ const ScrollShow = ({ children }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') {
+      setIsVisible(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry?.isIntersecting) {
           setIsVisible(true);
-          observer.unobserve(ref.current); // optional: stop observing once visible
+          if (ref.current) observer.unobserve(ref.current); // optional: stop observing once visible
         }
       },
       {
@@ -17,14 +22,17 @@ const ScrollShow = ({ children }) => {
       }
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
+    const element = ref.current;
+
+    if (element) {
+      observer.observe(element);
     }
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
+      if (element) {
+        observer.unobserve(element);
       }
+      observer.disconnect();
     };
   }, []);
 

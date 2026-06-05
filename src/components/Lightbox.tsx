@@ -1,6 +1,5 @@
 // components/Lightbox.tsx
 
-import NextImage from '@/lib/Image'; // 👈 alias it
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -119,24 +118,20 @@ export default function Lightbox({ items, index, onClose, onNext, onPrev }: Ligh
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
       >
-        <div className="relative max-h-[85vh] w-full max-w-6xl">
-          <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/10">
-            <NextImage
+        <div className="relative inline-block max-h-[85vh] max-w-6xl">
+          <div className="relative inline-block overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/10">
+            <img
               src={item.imageUrl}
               alt={item.title || 'Gallery photo'}
-              fill
-              sizes="100vw"
-              priority
-              className="object-contain"
+              className="block h-auto max-h-[85vh] w-auto max-w-full object-contain"
             />
-          </div>
-
-          <div className="pointer-events-none absolute inset-x-0 -bottom-0.5 flex items-end justify-between gap-3 rounded-b-2xl bg-gradient-to-t from-black/60 to-transparent p-4">
-            <div className="pointer-events-auto">
-              <p className="text-sm font-semibold text-white md:text-base">{item.title}</p>
-              <p className="text-xs text-white/70">
-                {safeIndex + 1} / {items.length}
-              </p>
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 rounded-b-2xl bg-gradient-to-t from-black/60 to-transparent p-4">
+              <div className="pointer-events-auto">
+                <p className="text-sm font-semibold text-white md:text-base">{item.title}</p>
+                <p className="text-xs text-white/70">
+                  {safeIndex + 1} / {items.length}
+                </p>
+              </div>
             </div>
           </div>
 

@@ -1,6 +1,5 @@
 // components/Lightbox.tsx
 
-import NextImage from '@/lib/Image'; // 👈 alias it
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 

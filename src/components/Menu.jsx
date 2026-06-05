@@ -208,9 +208,8 @@ function DesktopMenu({ items = [], currentPath = '' }) {
             ) : item.url ? (
               <Link
                 to={item.url}
-                className={`inline-block rounded-sm border-2 p-2 pb-1 leading-[1] ${
-                  isActive ? '' : 'border-transparent'
-                }`}
+                style={{ borderColor: isActive ? 'currentColor' : 'transparent' }}
+                className={`inline-block rounded-sm border-2 p-2 pb-1 leading-[1]`}
               >
                 {item.label}
               </Link>

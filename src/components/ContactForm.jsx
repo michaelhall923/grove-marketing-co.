@@ -98,6 +98,14 @@ export default function ContactForm({ title }) {
       return;
     }
 
+    if (!supabase) {
+      setStatus('error');
+      setErrorMessage(
+        'Contact form is not configured for this environment. Add VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY to .env.',
+      );
+      return;
+    }
+
     try {
       const { data, error } = await supabase.functions.invoke('contact', {
         body: { ...payload, recaptchaToken, recaptchaAction },

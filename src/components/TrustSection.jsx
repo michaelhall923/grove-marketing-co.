@@ -26,6 +26,9 @@ const BRANDS = [
 // Change this as needed, e.g. [3,1], [3,2,1], etc.
 const PATTERN = [3, 2];
 
+// Seconds between each jellyfish's entrance + bob cycle
+const JELLYFISH_STAGGER_S = 0.5;
+
 function chunkByPattern(arr, pattern) {
   const rows = [];
   let i = 0;
@@ -38,6 +41,32 @@ function chunkByPattern(arr, pattern) {
     p++;
   }
   return rows;
+}
+
+function JellyfishBrandTile({ item, invisible = false, delayIndex = 0 }) {
+  const delay = delayIndex * JELLYFISH_STAGGER_S;
+  // boat-wave shorthand delay is 3s; offset both animations together per tile
+  const animationDelay = `${delay}s, ${3 + delay}s`;
+
+  return (
+    <div
+      className={`relative ${invisible ? 'invisible' : 'animate-jellyfish-big'}`}
+      style={invisible ? undefined : { animationDelay }}
+    >
+      <SpriteJellyfishBig className="w-full" />
+      {item ? (
+        <div className="absolute top-5/16 right-5/32 left-5/32">
+          <Image
+            className="-translate-y-1/2"
+            src={item.src}
+            alt={item.alt}
+            width={1527}
+            height={569}
+          />
+        </div>
+      ) : null}
+    </div>
+  );
 }
 
 export default function TrustSection() {
@@ -61,6 +90,7 @@ export default function TrustSection() {
 
       <div className="mx-auto max-w-196">
         {rows.map((row, rowIndex) => {
+          const rowStartIndex = rows.slice(0, rowIndex).reduce((sum, r) => sum + r.length, 0);
           const overlap = rowIndex === 0 ? '' : 'mt-[-20%]';
           const expected = PATTERN[rowIndex % PATTERN.length] || row.length;
           const isLastRow = rowIndex === rows.length - 1;
@@ -81,26 +111,12 @@ export default function TrustSection() {
             const item = row[0] || null;
             return (
               <div key={`row-${rowIndex}`} className={overlap}>
-                <div className="relative mx-auto w-1/4">
-                  {/* If it’s a placeholder (no item), keep the same height via invisible sprite */}
-                  {item ? (
-                    <>
-                      <SpriteJellyfishBig />
-                      <div className="absolute top-5/16 right-5/32 left-5/32">
-                        <Image
-                          className="-translate-y-1/2"
-                          src={item.src}
-                          alt={item.alt}
-                          width={1527}
-                          height={569}
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <div className="invisible">
-                      <SpriteJellyfishBig />
-                    </div>
-                  )}
+                <div className="mx-auto w-1/4">
+                  <JellyfishBrandTile
+                    item={item}
+                    invisible={!item}
+                    delayIndex={rowStartIndex}
+                  />
                 </div>
               </div>
             );
@@ -112,19 +128,10 @@ export default function TrustSection() {
               {row.map((item, i) => (
                 <div
                   key={`${item.src}-${i}`}
-                  className={`${useFixedQuarter ? 'w-1/4' : ''} relative`}
+                  className={useFixedQuarter ? 'w-1/4' : ''}
                   style={useFixedQuarter ? undefined : { width: `${100 / displayCount}%` }}
                 >
-                  <SpriteJellyfishBig />
-                  <div className="absolute top-5/16 right-5/32 left-5/32">
-                    <Image
-                      className="-translate-y-1/2"
-                      src={item.src}
-                      alt={item.alt}
-                      width={1527}
-                      height={569}
-                    />
-                  </div>
+                  <JellyfishBrandTile item={item} delayIndex={rowStartIndex + i} />
                 </div>
               ))}
 
@@ -132,10 +139,10 @@ export default function TrustSection() {
               {Array.from({ length: missing }).map((_, i) => (
                 <div
                   key={`placeholder-${rowIndex}-${i}`}
-                  className={`${useFixedQuarter ? 'w-1/4' : ''} invisible relative`}
+                  className={useFixedQuarter ? 'w-1/4' : ''}
                   style={useFixedQuarter ? undefined : { width: `${100 / displayCount}%` }}
                 >
-                  <SpriteJellyfishBig />
+                  <JellyfishBrandTile invisible />
                 </div>
               ))}
             </div>

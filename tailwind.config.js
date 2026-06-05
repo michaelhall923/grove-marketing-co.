@@ -158,7 +158,8 @@ export default {
         'smoke-8': 'fade-in 0.8s ease-out forwards 2s',
         dolphin: 'dolphin 2s ease-in-out forwards, boat-wave 3.2s ease-in-out infinite 2s',
         jellyfish: 'jellyfish 3s ease-in-out forwards, boat-wave 6.4s ease-in-out infinite 3s',
-        'jellyfish-big': 'jellyfish 3s ease-in-out forwards, boat-wave 6.4s ease-in-out infinite 3s',
+        'jellyfish-big':
+          'jellyfish 3s ease-in-out both, boat-wave 6.4s ease-in-out infinite 3s',
         fish: 'fish 1.6s ease-out forwards, boat-wave 3.2s ease-in-out infinite 1.6s',
         'sun-rays': 'fade-in 0.8s ease-out forwards',
       },

@@ -1,6 +1,6 @@
-const SpriteJellyfishBig = () => {
+const SpriteJellyfishBig = ({ className = 'w-full animate-jellyfish-big' }) => {
   return (
-    <svg className="w-full animate-jellyfish-big" viewBox="0 0 248.48 407.96">
+    <svg className={className} viewBox="0 0 248.48 407.96">
         <defs>
             <style>
                 {`.jellyfish-big-1 {

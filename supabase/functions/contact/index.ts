@@ -49,6 +49,18 @@ function hostnameAllowed(observed: string, csv: string) {
   });
 }
 
+function hostnameFromUrl(value = "") {
+  try {
+    return new URL(value).hostname.toLowerCase();
+  } catch {
+    return "";
+  }
+}
+
+function isLovablePreviewHostname(hostname: string) {
+  return hostname.endsWith(".lovableproject.com") || hostname.endsWith(".lovable.app");
+}
+
 async function verifyRecaptcha(token: string, remoteip?: string) {
   const params = new URLSearchParams();
   params.set("secret", RECAPTCHA_SECRET);
@@ -162,7 +174,10 @@ Deno.serve(async (req) => {
   }
   if (RECAPTCHA_HOSTNAME) {
     const observed = (verify.hostname || "").toLowerCase();
-    if (!hostnameAllowed(observed, RECAPTCHA_HOSTNAME)) {
+    const requestHostname = hostnameFromUrl(req.headers.get("origin") || req.headers.get("referer") || "");
+    const previewHostname = isLovablePreviewHostname(requestHostname) ? requestHostname : "";
+    const allowedHostnames = [RECAPTCHA_HOSTNAME, previewHostname].filter(Boolean).join(",");
+    if (!hostnameAllowed(observed, allowedHostnames)) {
       return json(400, { ok: false, error: "Bad reCAPTCHA hostname", observed });
     }
   }

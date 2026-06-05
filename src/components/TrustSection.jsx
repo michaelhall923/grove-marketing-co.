@@ -84,8 +84,8 @@ export default function TrustSection() {
 
       <p className="text-md font-copy mx-auto mb-8 max-w-212 text-center md:mb-20 md:text-3xl">
         From wild ideas to razor-sharp execution, we partner with brands who aren&apos;t afraid to
-        go deep. Strategy, design, code, launch — whatever it takes to move the needle, we&apos;re
-        in. Here are a few of the names we&apos;ve helped make waves.
+        go deep. Strategy, design, code, and launch. Whatever it takes to move the needle,
+        we&apos;re in. Here are a few of the names we&apos;ve helped make waves.
       </p>
 
       <div className="mx-auto max-w-196">

@@ -167,9 +167,8 @@ function DesktopMenu({ items = [], currentPath = '' }) {
               <>
                 <button
                   type="button"
-                  className={`inline-flex items-center gap-1 rounded-sm border-2 bg-transparent p-2 pb-1 leading-[1] uppercase ${
-                    isOpen ? '' : 'border-transparent'
-                  }`}
+                  style={{ backgroundColor: 'transparent', color: 'inherit', borderColor: isOpen ? 'currentColor' : 'transparent' }}
+                  className={`inline-flex items-center gap-1 rounded-sm border-2 p-2 pb-1 leading-[1] uppercase hover:!bg-transparent`}
                   aria-haspopup="menu"
                   aria-expanded={isOpen}
                   onClick={() => (isOpen ? setOpenIndex(-1) : open(i))}
@@ -209,9 +208,8 @@ function DesktopMenu({ items = [], currentPath = '' }) {
             ) : item.url ? (
               <Link
                 to={item.url}
-                className={`inline-block rounded-sm border-2 p-2 pb-1 leading-[1] ${
-                  isActive ? '' : 'border-transparent'
-                }`}
+                style={{ borderColor: isActive ? 'currentColor' : 'transparent' }}
+                className={`inline-block rounded-sm border-2 p-2 pb-1 leading-[1]`}
               >
                 {item.label}
               </Link>

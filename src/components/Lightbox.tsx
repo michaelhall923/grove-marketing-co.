@@ -118,12 +118,12 @@ export default function Lightbox({ items, index, onClose, onNext, onPrev }: Ligh
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
       >
-        <div className="relative inline-block max-h-[85vh] max-w-6xl">
-          <div className="relative inline-block overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/10">
+        <div className="relative max-h-[85vh] w-full max-w-6xl">
+          <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/10">
             <img
               src={item.imageUrl}
               alt={item.title || 'Gallery photo'}
-              className="block h-auto max-h-[85vh] w-auto max-w-full object-contain"
+              className="absolute inset-0 h-full w-full object-cover"
             />
             <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 rounded-b-2xl bg-gradient-to-t from-black/60 to-transparent p-4">
               <div className="pointer-events-auto">

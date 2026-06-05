@@ -7,7 +7,7 @@ export default function ContactForm({ title }) {
   const [fieldErrors, setFieldErrors] = useState({}); // { first_name?: string, ... }
   const [errorMessage, setErrorMessage] = useState(''); // network/unknown
 
-  const SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+  const SITE_KEY = '6LcQruArAAAAAGynM7LD6tBUCEskfVakSKO-sFOi';
 
   useEffect(() => {
     if (!SITE_KEY || typeof document === 'undefined' || document.querySelector('script[data-recaptcha]')) return;

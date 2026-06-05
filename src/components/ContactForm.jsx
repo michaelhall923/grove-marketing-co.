@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 
 export default function ContactForm({ title }) {
   const [status, setStatus] = useState('idle'); // idle | loading | success | error
@@ -98,23 +99,44 @@ export default function ContactForm({ title }) {
     }
 
     try {
-      const resp = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...payload, recaptchaToken, recaptchaAction }),
+      const { data, error } = await supabase.functions.invoke('contact', {
+        body: { ...payload, recaptchaToken, recaptchaAction },
       });
 
-      const data = await resp.json().catch(() => ({}));
+      if (error) {
+        // Try to extract structured error body from FunctionsHttpError
+        let parsed = null;
+        try {
+          const ctx = error.context;
+          if (ctx && typeof ctx.json === 'function') {
+            parsed = await ctx.json();
+          }
+        } catch {
+          /* ignore */
+        }
+        if (parsed?.error && typeof parsed.error === 'object') {
+          applyZodFlattenErrors(parsed.error);
+          setStatus('error');
+          setErrorMessage('');
+          return;
+        }
+        const msg =
+          (parsed && typeof parsed.error === 'string' && parsed.error) ||
+          error.message ||
+          'Submission failed';
+        setErrorMessage(msg);
+        setStatus('error');
+        return;
+      }
 
-      if (!resp.ok || !data?.ok) {
+      if (!data?.ok) {
         if (data?.error && typeof data.error === 'object') {
           applyZodFlattenErrors(data.error);
           setStatus('error');
           setErrorMessage('');
           return;
         }
-        const msg = typeof data?.error === 'string' ? data.error : 'Submission failed';
-        setErrorMessage(msg);
+        setErrorMessage(typeof data?.error === 'string' ? data.error : 'Submission failed');
         setStatus('error');
         return;
       }

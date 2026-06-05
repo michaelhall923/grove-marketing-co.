@@ -36,10 +36,60 @@ const ROW_SIZE = BRANDS.length / 2;
 
 const MARQUEE_DURATION_S = 90;
 const MIN_ITEMS_PER_SET = 14;
-const BOB_DURATION_S = 6.4;
-// Half-cycle offset so each jellyfish peaks when its neighbor bottoms out
-const BOB_STAGGER_S = BOB_DURATION_S / 2;
-const BOB_DRIFT_REM = 1.75;
+// Metachronal wave offset between neighbors (colony pulsing out of phase)
+const PULSE_WAVE_S = 0.55;
+const PULSE_BASE_DURATION_S = 7.5;
+// Passive drift period — slower than pulse, like buoyancy oscillation in a density layer
+const FLOAT_BASE_DURATION_S = 14;
+
+function hashStr(str) {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) h = (h + str.charCodeAt(i)) % 997;
+  return h;
+}
+
+function rem(n) {
+  return `${n.toFixed(3)}rem`;
+}
+
+function getFloatMotionStyle(uid, index, direction, rowItemCount) {
+  const hash = hashStr(uid);
+  const rowDir = direction === 'ltr' ? 1 : -1;
+  const waveIndex = direction === 'ltr' ? index : rowItemCount - 1 - index;
+  const floatDuration = FLOAT_BASE_DURATION_S + (hash % 9) * 1.1;
+  const floatY = 0.55 + (hash % 6) * 0.1;
+  const floatX = 1.1 + (hash % 7) * 0.14;
+  const phaseDelay = waveIndex * 0.55 + (hash % 11) * 0.1;
+
+  // Horizontal: inertial lag relative to the uniform current (marquee)
+  // Vertical: passive bob between neutral and peak lift
+  return {
+    '--float-duration': `${floatDuration}s`,
+    '--float-x-low': rem(-rowDir * floatX * 0.55),
+    '--float-y-low': rem(-floatY * 0.2),
+    '--float-x-high': rem(rowDir * floatX * 0.45),
+    '--float-y-high': rem(-floatY * 0.65),
+    animationDelay: `${-phaseDelay}s`,
+  };
+}
+
+function getPulseMotionStyle(uid, index, direction, rowItemCount) {
+  const hash = hashStr(uid);
+  const rowDir = direction === 'ltr' ? 1 : -1;
+  const waveIndex = direction === 'ltr' ? index : rowItemCount - 1 - index;
+  const pulseDuration = PULSE_BASE_DURATION_S + (hash % 6) * 0.4;
+  const pulseLift = 0.75 + (hash % 7) * 0.1;
+  const pulseBurst = 0.55 + (hash % 6) * 0.12;
+  const phaseDelay = waveIndex * PULSE_WAVE_S + (hash % 10) * 0.05;
+
+  return {
+    '--pulse-duration': `${pulseDuration}s`,
+    '--pulse-y-pre': rem(pulseLift * 0.07),
+    '--pulse-burst-x': rem(rowDir * pulseBurst),
+    '--pulse-y-jet': rem(-pulseLift),
+    animationDelay: `${-phaseDelay}s`,
+  };
+}
 
 function repeatBrands(items, minCount) {
   const set = [];
@@ -81,14 +131,15 @@ function JellyfishMarqueeRow({ items, direction, className = '' }) {
         {track.map((item, i) => (
           <div key={item.uid} className="w-52 flex-shrink-0 px-4">
             <div
-              className="origin-[50%_85%] animate-jellyfish-bob-natural"
-              style={{
-                animationDelay: `${-(i * BOB_STAGGER_S)}s`,
-                '--bob-drift':
-                  direction === 'ltr' ? `${BOB_DRIFT_REM}rem` : `-${BOB_DRIFT_REM}rem`,
-              }}
+              className="animate-jellyfish-float will-change-transform"
+              style={getFloatMotionStyle(item.uid, i, direction, oneSet.length)}
             >
-              <JellyfishBrandTile item={item} />
+              <div
+                className="origin-[50%_85%] animate-jellyfish-pulse will-change-transform"
+                style={getPulseMotionStyle(item.uid, i, direction, oneSet.length)}
+              >
+                <JellyfishBrandTile item={item} />
+              </div>
             </div>
           </div>
         ))}

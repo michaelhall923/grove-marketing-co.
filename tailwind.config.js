@@ -124,34 +124,30 @@ export default {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-8%)' },
         },
-        // Sine-based bob: smooth Y, asymmetric X drift, subtle pulse
-        'jellyfish-bob-natural': {
-          '0%, 100%': { transform: 'translate(0, 0) scale(0.985)' },
-          '10%': {
-            transform: 'translate(calc(var(--bob-drift) * 0.12), -2.8%) scale(0.99)',
+        // Passive drift in a current: damped harmonic motion (sinusoidal, zero velocity at extrema)
+        'jellyfish-float': {
+          '0%, 100%': {
+            transform: 'translate(var(--float-x-low), var(--float-y-low))',
           },
-          '20%': {
-            transform: 'translate(calc(var(--bob-drift) * 0.38), -5.2%) scale(0.995)',
+          '50%': { transform: 'translate(var(--float-x-high), var(--float-y-high))' },
+        },
+        // Jet propulsion cycle: contract → thrust → drag coast → rest
+        'jellyfish-pulse': {
+          '0%': {
+            transform: 'translate(0, 0) scale(1)',
+            animationTimingFunction: 'cubic-bezier(0.45, 0, 0.55, 1)',
           },
-          '30%': {
-            transform: 'translate(calc(var(--bob-drift) * 0.68), -7%) scale(1.005)',
+          '6%': {
+            transform: 'translate(0, var(--pulse-y-pre)) scale(0.94, 1.05)',
+            animationTimingFunction: 'cubic-bezier(0.42, 0, 0.58, 1)',
           },
-          '40%': {
-            transform: 'translate(calc(var(--bob-drift) * 0.88), -7.8%) scale(1.01)',
+          '14%': {
+            transform:
+              'translate(var(--pulse-burst-x), var(--pulse-y-jet)) scale(0.93, 1.06)',
+            animationTimingFunction: 'cubic-bezier(0.25, 0, 0.35, 1)',
           },
-          '50%': { transform: 'translate(var(--bob-drift), -8%) scale(1.015)' },
-          '60%': {
-            transform: 'translate(calc(var(--bob-drift) * 0.86), -7.4%) scale(1.008)',
-          },
-          '70%': {
-            transform: 'translate(calc(var(--bob-drift) * 0.68), -5.8%) scale(1)',
-          },
-          '80%': {
-            transform: 'translate(calc(var(--bob-drift) * 0.38), -3.2%) scale(0.992)',
-          },
-          '90%': {
-            transform: 'translate(calc(var(--bob-drift) * 0.1), -1.1%) scale(0.987)',
-          },
+          '48%': { transform: 'translate(0, 0) scale(1)' },
+          '100%': { transform: 'translate(0, 0) scale(1)' },
         },
         'marquee-left': {
           '0%': { transform: 'translateX(0)' },
@@ -198,8 +194,9 @@ export default {
         'jellyfish-big':
           'jellyfish 3s ease-in-out both, boat-wave 6.4s ease-in-out infinite 3s',
         'jellyfish-bob': 'boat-wave 6.4s ease-in-out infinite',
-        'jellyfish-bob-natural':
-          'jellyfish-bob-natural var(--bob-duration, 6.4s) linear infinite',
+        'jellyfish-float':
+          'jellyfish-float var(--float-duration, 14s) cubic-bezier(0.45, 0, 0.55, 1) infinite',
+        'jellyfish-pulse': 'jellyfish-pulse var(--pulse-duration, 7.5s) linear infinite',
         'marquee-left': 'marquee-left 50s linear infinite',
         'marquee-right': 'marquee-right 50s linear infinite',
         fish: 'fish 1.6s ease-out forwards, boat-wave 3.2s ease-in-out infinite 1.6s',

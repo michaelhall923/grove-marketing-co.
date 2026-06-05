@@ -124,6 +124,43 @@ export default {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-8%)' },
         },
+        // Sine-based bob: smooth Y, asymmetric X drift, subtle pulse
+        'jellyfish-bob-natural': {
+          '0%, 100%': { transform: 'translate(0, 0) scale(0.985)' },
+          '10%': {
+            transform: 'translate(calc(var(--bob-drift) * 0.12), -2.8%) scale(0.99)',
+          },
+          '20%': {
+            transform: 'translate(calc(var(--bob-drift) * 0.38), -5.2%) scale(0.995)',
+          },
+          '30%': {
+            transform: 'translate(calc(var(--bob-drift) * 0.68), -7%) scale(1.005)',
+          },
+          '40%': {
+            transform: 'translate(calc(var(--bob-drift) * 0.88), -7.8%) scale(1.01)',
+          },
+          '50%': { transform: 'translate(var(--bob-drift), -8%) scale(1.015)' },
+          '60%': {
+            transform: 'translate(calc(var(--bob-drift) * 0.86), -7.4%) scale(1.008)',
+          },
+          '70%': {
+            transform: 'translate(calc(var(--bob-drift) * 0.68), -5.8%) scale(1)',
+          },
+          '80%': {
+            transform: 'translate(calc(var(--bob-drift) * 0.38), -3.2%) scale(0.992)',
+          },
+          '90%': {
+            transform: 'translate(calc(var(--bob-drift) * 0.1), -1.1%) scale(0.987)',
+          },
+        },
+        'marquee-left': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+        'marquee-right': {
+          '0%': { transform: 'translateX(-50%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
         dolphin: {
           '0%': { offsetDistance: '0%', rotate: '-30deg', opacity: '0' },
           '100%': { offsetDistance: '100%', rotate: '0deg', opacity: '1' },
@@ -160,6 +197,11 @@ export default {
         jellyfish: 'jellyfish 3s ease-in-out forwards, boat-wave 6.4s ease-in-out infinite 3s',
         'jellyfish-big':
           'jellyfish 3s ease-in-out both, boat-wave 6.4s ease-in-out infinite 3s',
+        'jellyfish-bob': 'boat-wave 6.4s ease-in-out infinite',
+        'jellyfish-bob-natural':
+          'jellyfish-bob-natural var(--bob-duration, 6.4s) linear infinite',
+        'marquee-left': 'marquee-left 50s linear infinite',
+        'marquee-right': 'marquee-right 50s linear infinite',
         fish: 'fish 1.6s ease-out forwards, boat-wave 3.2s ease-in-out infinite 1.6s',
         'sun-rays': 'fade-in 0.8s ease-out forwards',
       },

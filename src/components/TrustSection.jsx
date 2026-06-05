@@ -123,7 +123,7 @@ function JellyfishMarqueeRow({ items, direction, className = '' }) {
   const marqueeClass = direction === 'ltr' ? 'animate-marquee-right' : 'animate-marquee-left';
 
   return (
-    <div className={`overflow-x-clip overflow-y-visible pt-16 pb-0 md:pt-12 md:pb-8 ${className}`}>
+    <div className={`overflow-x-clip overflow-y-visible pt-12 pb-0 md:pt-8 md:pb-8 ${className}`}>
       <div
         className={`flex w-max will-change-transform ${marqueeClass}`}
         style={{ animationDuration: `${MARQUEE_DURATION_S}s` }}
@@ -152,20 +152,20 @@ export default function TrustSection() {
   return (
     <section
       id="trust"
-      className="px-4 pt-40 pb-40 lg:px-32"
+      className="px-4 pt-16 pb-40 md:pt-20 lg:px-32 lg:pt-36"
       style={{ background: 'linear-gradient(to bottom, rgb(8, 90, 98), rgb(20, 52, 52))' }}
     >
       <h2 className="mb-8 inline-block w-full text-center text-6xl leading-16 uppercase md:text-8xl md:leading-22">
         Anchored In Trust
       </h2>
 
-      <p className="text-md font-copy mx-auto mb-4 max-w-212 text-center md:mb-20 md:text-3xl">
+      <p className="text-md font-copy mx-auto mb-2 max-w-212 text-center md:mb-12 md:text-3xl">
         From wild ideas to razor-sharp execution, we partner with brands who aren&apos;t afraid to
         go deep. Strategy, design, code, launch – whatever it takes to move the needle,
         we&apos;re in. Here are a few of the names we&apos;ve helped make waves.
       </p>
 
-      <div className="relative left-1/2 -mt-6 w-screen -translate-x-1/2 overflow-visible md:mt-0">
+      <div className="relative left-1/2 -mt-8 w-screen -translate-x-1/2 overflow-visible md:-mt-4">
         <JellyfishMarqueeRow items={BRANDS.slice(0, ROW_SIZE)} direction="ltr" />
         <JellyfishMarqueeRow items={BRANDS.slice(ROW_SIZE)} direction="rtl" className="-mt-[18%] md:-mt-[8%]" />
       </div>

@@ -104,7 +104,7 @@ export default function Home() {
         </div>
 
         <div
-          className="min-h-250 md:min-h-300 lg:min-h-300"
+          className="min-h-250 md:min-h-300 lg:min-h-232"
           style={{ background: 'linear-gradient(to bottom, rgb(16, 106, 108), rgb(8, 90, 98))' }}
         >
           <div className="relative">
@@ -146,7 +146,7 @@ export default function Home() {
 
             <div
               id="services"
-              className="absolute top-88 left-1/2 w-[calc(100%-32px)] -translate-x-1/2 rounded-4xl p-2 md:top-120 md:w-[calc(100%-64px)] lg:top-100 lg:w-xl"
+              className="absolute top-88 left-1/2 w-[calc(100%-32px)] -translate-x-1/2 rounded-4xl p-2 md:top-120 md:w-[calc(100%-64px)] lg:top-100 lg:w-4xl"
               style={{ backgroundColor: '#4F8D8C' }}
             >
               <div className="rounded-3xl p-2" style={{ backgroundColor: '#255C67' }}>
@@ -202,11 +202,11 @@ export default function Home() {
                       Our Services
                     </h2>
                     <div className="px-4 pb-4 text-lg leading-6 md:pb-8 md:text-2xl md:leading-8">
-                      <div className="grid w-full grid-cols-2 grid-rows-2 gap-px gap-y-4 md:gap-y-8">
-                        <Link to="/services/web-development">
+                      <div className="grid w-full grid-cols-2 grid-rows-2 gap-px gap-y-4 md:gap-y-8 lg:grid-cols-4 lg:grid-rows-1 lg:gap-y-0">
+                        <Link to="/services/web-development" className="group">
                           <div>
                             <div
-                              className="mx-auto mb-4 size-28 overflow-hidden rounded-full border-4 md:size-44 md:border-6"
+                              className="mx-auto mb-4 size-28 overflow-hidden rounded-full border-4 transition-[filter] duration-300 group-hover:brightness-125 md:size-44 md:border-6"
                               style={{ borderColor: '#6EA39E' }}
                             >
                               <Image
@@ -222,10 +222,10 @@ export default function Home() {
                           </div>
                         </Link>
 
-                        <Link to="/services/integration-automation">
+                        <Link to="/services/integration-automation" className="group">
                           <div>
                             <div
-                              className="mx-auto mb-4 size-28 overflow-hidden rounded-full border-4 md:size-44 md:border-6"
+                              className="mx-auto mb-4 size-28 overflow-hidden rounded-full border-4 transition-[filter] duration-300 group-hover:brightness-125 md:size-44 md:border-6"
                               style={{ borderColor: '#6EA39E' }}
                             >
                               <Image
@@ -241,10 +241,10 @@ export default function Home() {
                           </div>
                         </Link>
 
-                        <Link to="/services/content-creation">
+                        <Link to="/services/content-creation" className="group">
                           <div>
                             <div
-                              className="mx-auto mb-4 size-28 overflow-hidden rounded-full border-4 md:size-44 md:border-6"
+                              className="mx-auto mb-4 size-28 overflow-hidden rounded-full border-4 transition-[filter] duration-300 group-hover:brightness-125 md:size-44 md:border-6"
                               style={{ borderColor: '#6EA39E' }}
                             >
                               <Image
@@ -260,10 +260,10 @@ export default function Home() {
                           </div>
                         </Link>
 
-                        <Link to="/services/advertising-seo">
+                        <Link to="/services/advertising-seo" className="group">
                           <div>
                             <div
-                              className="mx-auto mb-4 size-28 overflow-hidden rounded-full border-4 md:size-44 md:border-6"
+                              className="mx-auto mb-4 size-28 overflow-hidden rounded-full border-4 transition-[filter] duration-300 group-hover:brightness-125 md:size-44 md:border-6"
                               style={{ borderColor: '#6EA39E' }}
                             >
                               <Image

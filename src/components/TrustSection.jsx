@@ -111,6 +111,7 @@ function JellyfishBrandTile({ item }) {
           className="max-h-full max-w-full object-contain"
           src={item.src}
           alt={item.alt}
+          priority
         />
       </div>
     </div>

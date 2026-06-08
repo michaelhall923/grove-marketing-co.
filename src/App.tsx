@@ -1,6 +1,7 @@
 import { PreviewErrorFallback } from '@/components/ErrorBoundary';
 import Layout from '@/Layout';
 import ArticlePage from '@/pages/articles/ArticlePage';
+import ArticlesIndex from '@/pages/articles/ArticlesIndex';
 import AboutPage from '@/pages/AboutPage';
 import MRC2025Page, { mrc2025FooterTitle } from '@/pages/galleries/mrc2025';
 import Home from '@/pages/index';
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
         element: <MRC2025Page />,
         handle: { footerTitle: mrc2025FooterTitle },
       },
+      { path: 'articles', element: <ArticlesIndex /> },
       { path: 'articles/:slug', element: <ArticlePage /> },
       { path: 'about-us', element: <AboutPage /> },
       { path: '*', element: <NotFound /> },

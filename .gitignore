@@ -33,8 +33,12 @@ yarn-error.log*
 bun.lock
 bun.lockb
 
-# env files (can opt-in for committing if needed)
-.env*
+# env files
+# NOTE: .env is committed on the Lovable Vite stack because VITE_* vars
+# (VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY, VITE_SUPABASE_PROJECT_ID)
+# are inlined at build time and must be present in the tree the hosted preview builds from.
+.env.local
+.env.*.local
 
 # vercel
 .vercel

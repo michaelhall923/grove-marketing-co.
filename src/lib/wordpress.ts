@@ -50,5 +50,3 @@ export async function getPost(slug: string): Promise<WPPost> {
   return res.json();
 }
 
-// suppress unused warning
-void call;

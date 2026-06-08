@@ -27,6 +27,7 @@ const router = createBrowserRouter([
         element: <MRC2025Page />,
         handle: { footerTitle: mrc2025FooterTitle },
       },
+      { path: 'articles', element: <ArticlesIndex /> },
       { path: 'articles/:slug', element: <ArticlePage /> },
       { path: 'about-us', element: <AboutPage /> },
       { path: '*', element: <NotFound /> },

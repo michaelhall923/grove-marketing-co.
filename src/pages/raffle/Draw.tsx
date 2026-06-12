@@ -112,12 +112,12 @@ export default function RaffleDrawPage() {
   if (!user || !isAdmin) {
     return (
       <div
-        className="min-h-[100vh]"
+        className="flex h-[100vh] max-h-[100vh] items-center justify-center overflow-hidden"
         style={{ background: `linear-gradient(to bottom, #297073, rgb(20, 52, 52))` }}
       >
         <SEO title="Raffle Draw | Grove Marketing Co." robots="noindex, nofollow" />
         <Container>
-          <div className="flex flex-col items-center gap-6 py-32 text-center text-[color:var(--color-grove-100)]">
+          <div className="flex flex-col items-center gap-6 text-center text-[color:var(--color-grove-100)]">
             <h1 className="text-5xl">Admin Only</h1>
             <Link to="/login" className="button">
               Sign In
@@ -130,23 +130,23 @@ export default function RaffleDrawPage() {
 
   return (
     <div
-      className="min-h-[100vh] overflow-hidden"
+      className="flex h-[100vh] max-h-[100vh] items-center justify-center overflow-hidden"
       style={{ background: `linear-gradient(to bottom, #297073, rgb(20, 52, 52))` }}
     >
       <SEO title="Raffle Draw | Grove Marketing Co." robots="noindex, nofollow" />
-      
+
       <Container>
-        <div className="flex min-h-[80vh] flex-col items-center justify-center gap-12 py-20 text-center text-[color:var(--color-grove-100)]">
-          <h1 className="text-6xl sm:text-7xl md:text-8xl">Raffle Draw</h1>
+        <div className="flex flex-col items-center justify-center gap-8 text-center text-[color:var(--color-grove-100)]">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl">Raffle Draw</h1>
 
           <div
-            className={`flex min-h-[16rem] w-full items-center justify-center rounded-3xl bg-black/30 px-8 py-12 ${winner ? 'animate-scale-in' : ''}`}
+            className={`flex w-full items-center justify-center rounded-3xl bg-black/30 px-8 py-8 ${winner ? 'animate-scale-in' : ''}`}
           >
             <p
               className="text-center break-words"
               style={{
                 fontFamily: 'var(--font-header)',
-                fontSize: 'clamp(3rem, 12vw, 10rem)',
+                fontSize: 'clamp(2.5rem, 9vw, 7rem)',
                 lineHeight: 1,
                 color: winner ? '#fae1b4' : 'inherit',
                 textTransform: 'uppercase',
@@ -156,15 +156,15 @@ export default function RaffleDrawPage() {
             </p>
           </div>
 
-          {error && <p className="text-2xl text-red-300">{error}</p>}
+          {error && <p className="text-xl text-red-300">{error}</p>}
 
           <button
             type="button"
             onClick={spin}
             disabled={spinning}
             style={{
-              fontSize: 'clamp(2rem, 6vw, 4rem)',
-              padding: '1.5rem 4rem',
+              fontSize: 'clamp(1.5rem, 4vw, 3rem)',
+              padding: '1rem 3rem',
               borderRadius: '1rem',
             }}
           >

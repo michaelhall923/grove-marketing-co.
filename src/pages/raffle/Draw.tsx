@@ -140,9 +140,11 @@ export default function RaffleDrawPage() {
           <h1 className="text-5xl sm:text-6xl md:text-7xl">CLIENT SHOWCASE RAFFLE</h1>
 
           <div
-            className={`flex w-full items-center justify-center rounded-3xl bg-black/30 px-8 py-8 ${winner ? 'animate-scale-in' : ''}`}
+            className={`flex w-full items-center justify-center overflow-hidden rounded-3xl bg-black/30 px-8 py-8 ${winner ? 'animate-scale-in' : ''}`}
+            style={{ height: 'clamp(4rem, 13vw, 10rem)' }}
           >
             <p
+              key={display}
               className="text-center break-words"
               style={{
                 fontFamily: 'var(--font-header)',
@@ -150,11 +152,17 @@ export default function RaffleDrawPage() {
                 lineHeight: 1,
                 color: winner ? '#fae1b4' : 'inherit',
                 textTransform: 'uppercase',
+                animation: spinning
+                  ? 'raffle-roll 120ms ease-out'
+                  : winner
+                  ? 'raffle-roll 400ms cubic-bezier(0.2, 0.8, 0.2, 1)'
+                  : undefined,
               }}
             >
               {display}
             </p>
           </div>
+
 
           {error && <p className="text-xl text-red-300">{error}</p>}
 

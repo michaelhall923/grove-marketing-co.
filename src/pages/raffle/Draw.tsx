@@ -7,24 +7,52 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/lib/auth';
 import { Link } from 'react-router-dom';
 
+const ROW_H = 'clamp(4rem, 13vw, 10rem)';
+const SPIN_MS = 5000;
+const REEL_LENGTH = 30;
+
 export default function RaffleDrawPage() {
   const { isAdmin, loading, user } = useAuth();
   const [display, setDisplay] = useState('Ready to spin');
+  const [reel, setReel] = useState<string[] | null>(null);
+  const [rolling, setRolling] = useState(false);
   const [spinning, setSpinning] = useState(false);
   const [winner, setWinner] = useState<string | null>(null);
   const [error, setError] = useState('');
-  const intervalRef = useRef<number | null>(null);
+  const winnerRef = useRef('');
+  const doneRef = useRef(false);
 
-  useEffect(() => () => {
-    if (intervalRef.current) window.clearInterval(intervalRef.current);
-  }, []);
+  // Once the reel is mounted at translateY(0), kick off the transition.
+  useEffect(() => {
+    if (!reel) return;
+    const raf = requestAnimationFrame(() =>
+      requestAnimationFrame(() => setRolling(true)),
+    );
+    const safety = window.setTimeout(finishRoll, SPIN_MS + 800);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.clearTimeout(safety);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reel]);
+
+  function finishRoll() {
+    if (doneRef.current) return;
+    doneRef.current = true;
+    setWinner(winnerRef.current);
+    setSpinning(false);
+    fireConfetti();
+  }
 
   async function spin() {
     if (spinning || !supabase) return;
     setError('');
     setWinner(null);
+    setReel(null);
+    setRolling(false);
     setSpinning(true);
     setDisplay('Spinning...');
+    doneRef.current = false;
 
     try {
       const { data, error: fnErr } = await supabase.functions.invoke('raffle-draw', {
@@ -35,40 +63,24 @@ export default function RaffleDrawPage() {
       const winnerName: string = data?.winner?.name ?? '';
       if (!winnerName) throw new Error('No winner returned');
 
-      // Slot-machine animation: start fast, slow to a stop on winner.
-      const totalDurationMs = 4500;
-      const start = performance.now();
-      let lastTick = 0;
-      let lastIdx = -1;
+      // Build the reel strip: shuffled names, ending on the winner.
+      const source = pool.length ? pool : [winnerName];
+      const items: string[] = [];
+      while (items.length < REEL_LENGTH) {
+        items.push(...[...source].sort(() => Math.random() - 0.5));
+      }
+      items.length = REEL_LENGTH;
+      if (items[REEL_LENGTH - 1] === winnerName && source.length > 1) {
+        items[REEL_LENGTH - 1] =
+          source.find((n) => n !== winnerName) ?? items[REEL_LENGTH - 1];
+      }
+      items.push(winnerName);
 
-      const tick = (now: number) => {
-        const elapsed = now - start;
-        const progress = Math.min(elapsed / totalDurationMs, 1);
-        // Ease-out: interval grows from 60ms to 500ms
-        const interval = 60 + Math.pow(progress, 2.2) * 600;
-
-        if (now - lastTick >= interval) {
-          lastTick = now;
-          let idx = Math.floor(Math.random() * pool.length);
-          if (pool.length > 1 && idx === lastIdx) {
-            idx = (idx + 1) % pool.length;
-          }
-          lastIdx = idx;
-          setDisplay(pool[idx] ?? winnerName);
-        }
-
-        if (progress < 1) {
-          requestAnimationFrame(tick);
-        } else {
-          setDisplay(winnerName);
-          setWinner(winnerName);
-          setSpinning(false);
-          fireConfetti();
-        }
-      };
-      requestAnimationFrame(tick);
+      winnerRef.current = winnerName;
+      setReel(items);
     } catch (e) {
       setSpinning(false);
+      setReel(null);
       setDisplay('Ready to spin');
       const msg =
         e instanceof Error ? e.message : typeof e === 'string' ? e : 'Spin failed';
@@ -97,6 +109,13 @@ export default function RaffleDrawPage() {
       if (Date.now() < end) requestAnimationFrame(frame);
     })();
   }
+
+  const nameStyle: React.CSSProperties = {
+    fontFamily: 'var(--font-header)',
+    fontSize: 'clamp(2.5rem, 9vw, 7rem)',
+    lineHeight: 1,
+    textTransform: 'uppercase',
+  };
 
   if (loading) {
     return (
@@ -140,29 +159,48 @@ export default function RaffleDrawPage() {
           <h1 className="text-5xl sm:text-6xl md:text-7xl">CLIENT SHOWCASE RAFFLE</h1>
 
           <div
-            className={`flex w-full items-center justify-center overflow-hidden rounded-3xl bg-black/30 px-8 py-8 ${winner ? 'animate-scale-in' : ''}`}
-            style={{ height: 'clamp(4rem, 13vw, 10rem)' }}
+            className={`w-full overflow-hidden rounded-3xl bg-black/30 ${winner ? 'animate-scale-in' : ''}`}
+            style={{ height: ROW_H }}
           >
-            <p
-              key={display}
-              className="text-center break-words"
-              style={{
-                fontFamily: 'var(--font-header)',
-                fontSize: 'clamp(2.5rem, 9vw, 7rem)',
-                lineHeight: 1,
-                color: winner ? '#fae1b4' : 'inherit',
-                textTransform: 'uppercase',
-                animation: winner
-                  ? 'raffle-settle 450ms cubic-bezier(0.2, 0.8, 0.2, 1)'
-                  : spinning
-                  ? 'raffle-roll 220ms linear'
-                  : undefined,
-              }}
-            >
-              {display}
-            </p>
+            {reel ? (
+              <div
+                onTransitionEnd={(e) => {
+                  if (e.propertyName === 'transform') finishRoll();
+                }}
+                style={{
+                  transform: rolling
+                    ? `translateY(calc(-${reel.length - 1} * ${ROW_H}))`
+                    : 'translateY(0)',
+                  transition: rolling
+                    ? `transform ${SPIN_MS}ms cubic-bezier(0.12, 0.65, 0.15, 1)`
+                    : 'none',
+                  willChange: 'transform',
+                }}
+              >
+                {reel.map((name, i) => (
+                  <p
+                    key={i}
+                    className="flex items-center justify-center break-words px-8 text-center"
+                    style={{
+                      ...nameStyle,
+                      height: ROW_H,
+                      color:
+                        winner && i === reel.length - 1 ? '#fae1b4' : 'inherit',
+                    }}
+                  >
+                    {name}
+                  </p>
+                ))}
+              </div>
+            ) : (
+              <p
+                className="flex h-full items-center justify-center break-words px-8 text-center"
+                style={nameStyle}
+              >
+                {display}
+              </p>
+            )}
           </div>
-
 
           {error && <p className="text-xl text-red-300">{error}</p>}
 

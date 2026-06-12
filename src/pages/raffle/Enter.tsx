@@ -59,12 +59,12 @@ export default function RaffleEnterPage() {
 
   return (
     <div
-      className="min-h-[100vh]"
+      className="flex h-[100vh] max-h-[100vh] items-center justify-center overflow-hidden"
       style={{ background: `linear-gradient(to bottom, #297073, rgb(20, 52, 52))` }}
     >
       <SEO title="Enter the Raffle | Grove Marketing Co." robots="noindex, nofollow" />
       <Container>
-        <div className="mx-auto flex max-w-xl flex-col gap-6 py-20 text-[color:var(--color-grove-100)]">
+        <div className="mx-auto flex w-full max-w-xl flex-col gap-6 text-[color:var(--color-grove-100)]">
           <h1 className="text-center text-5xl">Enter the Raffle</h1>
           <p className="text-center">Drop your info below for a chance to win.</p>
 

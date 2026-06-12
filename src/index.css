@@ -244,7 +244,11 @@ ol {
   background-color: var(--color-grove-100);
 }
 
-.article a[role='button'].builder-block {
+.article a[role='button'].builder-block,
+.article .wp-block-button__link,
+.article a.button,
+.article a.wp-block-button {
+  display: inline-block;
   text-decoration: none;
   padding: 12px;
   line-height: 1;
@@ -256,7 +260,10 @@ ol {
   align-self: center;
 }
 
-.article a[role='button'].builder-block:hover {
+.article a[role='button'].builder-block:hover,
+.article .wp-block-button__link:hover,
+.article a.button:hover,
+.article a.wp-block-button:hover {
   background-color: #fc7108;
 }
 

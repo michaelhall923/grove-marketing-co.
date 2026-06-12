@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import confetti from 'canvas-confetti';
 import Container from '@/components/Container';
-import HeaderFix from '@/components/HeaderFix';
+
 import { SEO } from '@/lib/SEO';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/lib/auth';

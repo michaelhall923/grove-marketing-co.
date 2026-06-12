@@ -114,8 +114,8 @@ export default function RaffleEnterPage() {
 
             {topError && <p className="text-red-300">{topError}</p>}
 
-            <button type="submit" disabled={submitting} className="w-full">
-              {submitting ? 'Entering...' : 'Enter Raffle'}
+            <button type="submit" disabled={submitting} className="w-full uppercase font-bold tracking-wider">
+              {submitting ? 'Entering...' : 'SEND TO THE RAFFLE GODS!'}
             </button>
           </form>
         </div>

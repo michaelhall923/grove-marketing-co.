@@ -1,38 +1,79 @@
-## Diagnosis
 
-Your dev server in the sandbox is actually running fine (Vite is up on port 8080). The "Preview has not been built yet" message you're seeing is coming from Lovable's hosted preview/build pipeline, not the local dev server — and there is one clear deviation from Lovable's standard Vite setup that explains it.
+## Overview
 
-### The deviation
+Add a raffle system (enter/draw/admin), site-wide auth with a `/login` page, and an admin role tied to `@grovemarketingco.com` emails. None of these routes will be linked from the header, footer, or anywhere else — direct URL access only, and all noindexed.
 
-`.gitignore` contains:
+## Pages
 
-```
-# env files (can opt-in for committing if needed)
-.env*
-```
+### `/raffle/enter` (public, noindex)
+- Form: Name, Email, Phone Number (zod-validated, styled to match the existing contact form).
+- On submit: insert into `raffle_entries`.
+- Show a centered "Thanks for entering!" popup with a fade/scale animation, auto-dismiss after ~2.5s, then reset the form.
 
-This is the Next.js-era ignore rule left over from the migration described in `README.md` ("migrated from the legacy Next.js + Builder.io site"). On Lovable's classic Vite + Lovable Cloud stack, the managed `.env` file holds:
+### `/raffle/draw` (public, noindex)
+- Large "SPIN" button (oversized typography matching site's Franklin Gothic display style).
+- On click: fetch all entry names, then run a slot-machine style animation that cycles names rapidly, eases out, and lands on the actual winner (picked server-side via an edge function for fairness).
+- Winner name displays huge (readable from across a room) + a confetti burst overlay.
+- Entries are left untouched — same person could win again on subsequent spins.
 
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_PUBLISHABLE_KEY`
-- `VITE_SUPABASE_PROJECT_ID`
+### `/raffle/admin` (admin only, noindex)
+- Single big "Delete all entries" button with a confirm step.
+- If not logged in OR not an admin → redirect to `/login`.
 
-`src/integrations/supabase/client.ts` reads these via `import.meta.env.VITE_SUPABASE_*`. Because `.env*` is gitignored, the managed `.env` never makes it into the committed source the hosted preview builds from, so the build either fails or boots without the values and the preview never reports as "built".
+### `/login` (public, noindex)
+- Email + password sign in / sign up (toggle).
+- Anyone can create an account. Admin status is derived automatically from email domain (no manual role assignment needed).
+- After login: redirect back to wherever they came from (or `/` if no referrer).
 
-Other parts of the project look standard (Vite 5 + React 18, `@/` alias, `src/integrations/supabase/client.ts` untouched, edge function under `supabase/functions/contact`). The `.gitignore` is the outlier.
+## Backend
 
-## Plan
+### `raffle_entries` table
+Columns: `id`, `name`, `email`, `phone`, `created_at`.
 
-1. Edit `.gitignore`: remove the `.env*` block so the Lovable-managed `.env` (with `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_SUPABASE_PROJECT_ID`) is tracked.
-   - Keep ignoring secrets that should never be committed if needed (e.g. `.env.local`), but `.env` itself must be tracked on this stack.
-2. Refresh / reconnect the Lovable Cloud integration so the managed `.env` is regenerated and committed.
-3. Restart the preview; it should build cleanly.
-4. If the published site (`grove-marketing-co.lovable.app`) was published from a broken state, republish after the preview is healthy.
+RLS:
+- INSERT: anyone (anon + authenticated) — public raffle entry.
+- SELECT: admins only (used by the draw page).
+- DELETE: admins only.
 
-No application code changes are required — only the ignore rule and a Cloud refresh.
+### Roles
+- `app_role` enum with `admin` value.
+- `user_roles` table (separate from profiles, per security best practice).
+- `has_role(user_id, role)` security-definer function.
+- `is_admin_email(email)` helper: returns true when email ends with `@grovemarketingco.com`.
+- Trigger on `auth.users` insert: if the new user's email matches the admin domain, insert an `admin` row into `user_roles`.
 
-## Technical details
+### Edge functions
+- `raffle-draw`: admin-only (verifies JWT + admin role), returns a randomly selected entry. Used by `/raffle/draw` so the winner is chosen server-side.
+- `raffle-reset`: admin-only, deletes all rows from `raffle_entries`. Used by `/raffle/admin`.
 
-- Lovable's classic Vite stack expects `VITE_*` public env vars to be present at build time via a committed `.env`. Unlike Next.js (which is typically deployed with platform env vars), Vite inlines `import.meta.env.VITE_*` at build time from whatever `.env` exists in the working tree.
-- `vite-env.d.ts` only declares `VITE_RECAPTCHA_SITE_KEY`; the Supabase vars work regardless because `import.meta.env` is typed as `any` for undeclared keys, but you can add them later if you want stricter typing.
-- The reCAPTCHA site key is hardcoded in `src/components/ContactForm.jsx`, so it is unaffected by this issue.
+## Auth wiring
+
+- Enable email/password auth, disable auto-confirm (standard) — actually, since this is internal admin use, enable auto-confirm so signups work without an email step. Will confirm before applying.
+- Add `supabase.auth.onAuthStateChange` listener + `getSession` hydration in a small `AuthProvider` context.
+- `RequireAdmin` route wrapper used by `/raffle/admin` and `/raffle/draw`'s admin-only fetch.
+  - Note: `/raffle/draw` itself is public to view (so anyone can run the draw at an event), but the winner-selection edge function requires admin. If you'd prefer `/raffle/draw` also be admin-gated, say the word.
+
+## Styling
+
+- Reuse existing tokens (`--color-grove-*`, Franklin Gothic headers, Georgia body, the orange `#e27c22` button).
+- Forms use existing global `input` styling already in `src/index.css`.
+- Confetti via a small dependency (`canvas-confetti`) — lightweight, no React wrapper needed.
+- All raffle pages get `<SEO robots="noindex, nofollow" />` like the MRC2025 gallery.
+
+## Files to add/change
+
+- `supabase/migrations/<new>.sql` — roles enum, `user_roles`, `has_role`, admin-email trigger, `raffle_entries` + RLS + GRANTs.
+- `supabase/functions/raffle-draw/index.ts`
+- `supabase/functions/raffle-reset/index.ts`
+- `src/lib/auth.tsx` — AuthProvider + `useAuth` + `useIsAdmin`.
+- `src/components/RequireAdmin.tsx`
+- `src/pages/Login.tsx`
+- `src/pages/raffle/Enter.tsx`
+- `src/pages/raffle/Draw.tsx`
+- `src/pages/raffle/Admin.tsx`
+- `src/App.tsx` — add routes `/login`, `/raffle/enter`, `/raffle/draw`, `/raffle/admin`; wrap router tree in `AuthProvider`.
+- `package.json` — add `canvas-confetti`.
+
+## Open question (one)
+
+Should `/raffle/draw` be **viewable by anyone** (only the winner-pick API is admin-gated), or **fully admin-gated** so even loading the page requires login? Default in the plan: viewable by anyone, draw API admin-only — but easy to flip.

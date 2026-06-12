@@ -23,7 +23,7 @@ export default function RaffleIndexPage() {
               <Link
                 key={l.to}
                 to={l.to}
-                className="rounded-md border border-[color:var(--color-grove-100)]/30 bg-[color:var(--color-grove-100)]/10 px-6 py-4 text-center text-lg font-medium transition hover:bg-[color:var(--color-grove-100)]/20"
+                className="button text-center font-bold tracking-wider"
               >
                 {l.label}
               </Link>

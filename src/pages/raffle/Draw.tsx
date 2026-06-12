@@ -137,7 +137,7 @@ export default function RaffleDrawPage() {
 
       <Container>
         <div className="flex flex-col items-center justify-center gap-8 text-center text-[color:var(--color-grove-100)]">
-          <h1 className="text-5xl sm:text-6xl md:text-7xl">Raffle Draw</h1>
+          <h1 className="text-5xl sm:text-6xl md:text-7xl">CLIENT SHOWCASE RAFFLE</h1>
 
           <div
             className={`flex w-full items-center justify-center rounded-3xl bg-black/30 px-8 py-8 ${winner ? 'animate-scale-in' : ''}`}

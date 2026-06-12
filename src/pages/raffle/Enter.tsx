@@ -66,7 +66,7 @@ export default function RaffleEnterPage() {
       <Container>
         <div className="mx-auto flex w-full max-w-xl flex-col gap-6 text-[color:var(--color-grove-100)]">
           <h1 className="text-center text-5xl">Enter the Raffle</h1>
-          <p className="text-center">Drop your info below for a chance to win.</p>
+          <p className="text-center">Drop your info below for a chance to win prizes, experiences, and exclusive gifts from our incredible clients and partners!</p>
 
           <form ref={formRef} onSubmit={onSubmit} className="flex flex-col gap-3">
             <div>

@@ -63,7 +63,6 @@ export default function RaffleEnterPage() {
       style={{ background: `linear-gradient(to bottom, #297073, rgb(20, 52, 52))` }}
     >
       <SEO title="Enter the Raffle | Grove Marketing Co." robots="noindex, nofollow" />
-      <HeaderFix />
       <Container>
         <div className="mx-auto flex max-w-xl flex-col gap-6 py-20 text-[color:var(--color-grove-100)]">
           <h1 className="text-center text-5xl">Enter the Raffle</h1>

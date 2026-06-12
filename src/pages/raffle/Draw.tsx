@@ -116,7 +116,6 @@ export default function RaffleDrawPage() {
         style={{ background: `linear-gradient(to bottom, #297073, rgb(20, 52, 52))` }}
       >
         <SEO title="Raffle Draw | Grove Marketing Co." robots="noindex, nofollow" />
-        <HeaderFix />
         <Container>
           <div className="flex flex-col items-center gap-6 py-32 text-center text-[color:var(--color-grove-100)]">
             <h1 className="text-5xl">Admin Only</h1>
@@ -135,7 +134,7 @@ export default function RaffleDrawPage() {
       style={{ background: `linear-gradient(to bottom, #297073, rgb(20, 52, 52))` }}
     >
       <SEO title="Raffle Draw | Grove Marketing Co." robots="noindex, nofollow" />
-      <HeaderFix />
+      
       <Container>
         <div className="flex min-h-[80vh] flex-col items-center justify-center gap-12 py-20 text-center text-[color:var(--color-grove-100)]">
           <h1 className="text-6xl sm:text-7xl md:text-8xl">Raffle Draw</h1>

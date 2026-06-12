@@ -39,6 +39,7 @@ export default function RaffleDrawPage() {
       const totalDurationMs = 4500;
       const start = performance.now();
       let lastTick = 0;
+      let lastIdx = -1;
 
       const tick = (now: number) => {
         const elapsed = now - start;
@@ -48,7 +49,11 @@ export default function RaffleDrawPage() {
 
         if (now - lastTick >= interval) {
           lastTick = now;
-          const idx = Math.floor(Math.random() * pool.length);
+          let idx = Math.floor(Math.random() * pool.length);
+          if (pool.length > 1 && idx === lastIdx) {
+            idx = (idx + 1) % pool.length;
+          }
+          lastIdx = idx;
           setDisplay(pool[idx] ?? winnerName);
         }
 

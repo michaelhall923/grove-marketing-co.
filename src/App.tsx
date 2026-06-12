@@ -1,11 +1,17 @@
 import { PreviewErrorFallback } from '@/components/ErrorBoundary';
+import RequireAdmin from '@/components/RequireAdmin';
 import Layout from '@/Layout';
+import { AuthProvider } from '@/lib/auth';
 import ArticlePage from '@/pages/articles/ArticlePage';
 import ArticlesIndex from '@/pages/articles/ArticlesIndex';
 import AboutPage from '@/pages/AboutPage';
 import MRC2025Page, { mrc2025FooterTitle } from '@/pages/galleries/mrc2025';
 import Home from '@/pages/index';
+import LoginPage from '@/pages/Login';
 import NotFound from '@/pages/NotFound';
+import RaffleAdminPage from '@/pages/raffle/Admin';
+import RaffleDrawPage from '@/pages/raffle/Draw';
+import RaffleEnterPage from '@/pages/raffle/Enter';
 import AdvertisingSeo from '@/pages/services/advertising-seo';
 import ContentCreation from '@/pages/services/content-creation';
 import IntegrationAutomation from '@/pages/services/integration-automation';
@@ -30,11 +36,26 @@ const router = createBrowserRouter([
       { path: 'articles', element: <ArticlesIndex /> },
       { path: 'articles/:slug', element: <ArticlePage /> },
       { path: 'about-us', element: <AboutPage /> },
+      { path: 'login', element: <LoginPage /> },
+      { path: 'raffle/enter', element: <RaffleEnterPage /> },
+      { path: 'raffle/draw', element: <RaffleDrawPage /> },
+      {
+        path: 'raffle/admin',
+        element: (
+          <RequireAdmin>
+            <RaffleAdminPage />
+          </RequireAdmin>
+        ),
+      },
       { path: '*', element: <NotFound /> },
     ],
   },
 ]);
 
 export default function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  );
 }

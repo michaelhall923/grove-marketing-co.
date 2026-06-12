@@ -152,10 +152,10 @@ export default function RaffleDrawPage() {
                 lineHeight: 1,
                 color: winner ? '#fae1b4' : 'inherit',
                 textTransform: 'uppercase',
-                animation: spinning
-                  ? 'raffle-roll 120ms ease-out'
-                  : winner
-                  ? 'raffle-roll 400ms cubic-bezier(0.2, 0.8, 0.2, 1)'
+                animation: winner
+                  ? 'raffle-settle 450ms cubic-bezier(0.2, 0.8, 0.2, 1)'
+                  : spinning
+                  ? 'raffle-roll 220ms linear'
                   : undefined,
               }}
             >

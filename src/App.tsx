@@ -12,6 +12,7 @@ import NotFound from '@/pages/NotFound';
 import RaffleAdminPage from '@/pages/raffle/Admin';
 import RaffleDrawPage from '@/pages/raffle/Draw';
 import RaffleEnterPage from '@/pages/raffle/Enter';
+import RaffleIndexPage from '@/pages/raffle/Index';
 import AdvertisingSeo from '@/pages/services/advertising-seo';
 import ContentCreation from '@/pages/services/content-creation';
 import IntegrationAutomation from '@/pages/services/integration-automation';
@@ -37,6 +38,7 @@ const router = createBrowserRouter([
       { path: 'articles/:slug', element: <ArticlePage /> },
       { path: 'about-us', element: <AboutPage /> },
       { path: 'login', element: <LoginPage /> },
+      { path: 'raffle', element: <RaffleIndexPage />, handle: { bare: true } },
       { path: 'raffle/enter', element: <RaffleEnterPage />, handle: { bare: true } },
       { path: 'raffle/draw', element: <RaffleDrawPage />, handle: { bare: true } },
       {

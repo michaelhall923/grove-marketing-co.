@@ -6,12 +6,17 @@ import HeaderFix from '@/components/HeaderFix';
 import PhotoGallery from '@/components/PhotoGallery';
 
 const videoItems = [
-  // Replace youtubeId with your real IDs (the string after v= in a YouTube URL)
-  { title: 'Legacy of Launch – Fundraising Campaign', youtubeId: 'mfXfDpgpaDY' },
-  { title: 'Yak Gear – Promo', youtubeId: 'iNR1BKNJVaY' },
-  { title: 'SeaDek – Interview', youtubeId: 'rsdT5cIE3as' },
-  { title: 'Big Wood Tree Service – Short Form Ad', youtubeId: 'xztnDpAUct8' },
-  { title: 'SeaDek – Documentary', youtubeId: '9iou_PyBQgA' },
+  { title: 'Arnott - Commercial', youtubeId: '_UGCFJG3sjM' },
+  { title: 'SeaDek - Documentary', youtubeId: '9iou_PyBQgA' },
+  { title: 'Field & Stream - Fishing Show', youtubeId: 'RIJ5HSehvtM' },
+  { title: 'Yak Gear - Promo', youtubeId: 'iNR1BKNJVaY' },
+  { title: 'Arnott - Tutorial', youtubeId: 'RDWl6-OtWu0' },
+  { title: 'Legacy of Launch - Fundraising Campaign', youtubeId: 'mfXfDpgpaDY' },
+  { title: 'Field & Stream - Fishing Show', youtubeId: 'zQSfofIPOEk' },
+  { title: 'SeaDek - Interview', youtubeId: 'rsdT5cIE3as' },
+  { title: 'Arnott - Commercial', youtubeId: 'Zla9HJIHEAQ' },
+  { title: 'Arnott - Testimonial', youtubeId: 'RJYCXZmUtSI' },
+  { title: 'Big Wood Tree Service - Short Form Ad', youtubeId: 'xztnDpAUct8' },
   { title: 'Wedding Highlight Reel', youtubeId: 'tvMw1x19aRI' },
 ];
 

@@ -203,81 +203,57 @@ export default function Home() {
                     </h2>
                     <div className="px-4 pb-4 text-lg leading-6 md:pb-8 md:text-2xl md:leading-8">
                       <div className="grid w-full grid-cols-2 grid-rows-2 gap-px gap-y-4 md:gap-y-8 lg:grid-cols-4 lg:grid-rows-1 lg:gap-y-0">
-                        <Link to="/services/web-development" className="group">
-                          <div>
-                            <div
-                              className="mx-auto mb-4 size-28 overflow-hidden rounded-full border-4 transition-[filter] duration-300 group-hover:brightness-125 md:size-44 md:border-6"
-                              style={{ borderColor: '#6EA39E' }}
-                            >
-                              <Image
-                                className="scale-110"
-                                src="/img/icon-web-development.svg"
-                                alt="Web Development"
-                                width={500}
-                                height={500}
-                                priority
-                              />
+                        {[
+                          {
+                            href: '/services/web-development',
+                            src: '/img/icon-web-development.svg',
+                            hover: '/img/icon-web-development-color.svg',
+                            label: 'Web Development',
+                          },
+                          {
+                            href: '/services/integration-automation',
+                            src: '/img/icon-integration-automation.svg',
+                            hover: '/img/icon-integration-automation-color.svg',
+                            label: 'Integration & Automation',
+                          },
+                          {
+                            href: '/services/content-creation',
+                            src: '/img/icon-content-creation.svg',
+                            hover: '/img/icon-content-creation-color.svg',
+                            label: 'Content Creation',
+                          },
+                          {
+                            href: '/services/advertising-seo',
+                            src: '/img/icon-advertising-seo.svg',
+                            hover: '/img/icon-advertising-seo-color.svg',
+                            label: 'Advertising & SEO',
+                          },
+                        ].map((service) => (
+                          <Link key={service.href} to={service.href} className="group">
+                            <div>
+                              <div
+                                className="relative mx-auto mb-4 size-28 overflow-hidden rounded-full border-4 md:size-44 md:border-6"
+                                style={{ borderColor: '#6EA39E' }}
+                              >
+                                <Image
+                                  className="scale-110"
+                                  src={service.src}
+                                  alt={service.label}
+                                  width={500}
+                                  height={500}
+                                  priority
+                                />
+                                <img
+                                  className="pointer-events-none absolute inset-0 h-full w-full scale-110 object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                                  src={service.hover}
+                                  alt=""
+                                  aria-hidden="true"
+                                />
+                              </div>
+                              <h3 className="text-center">{service.label}</h3>
                             </div>
-                            <h3 className="text-center">Web Development</h3>
-                          </div>
-                        </Link>
-
-                        <Link to="/services/integration-automation" className="group">
-                          <div>
-                            <div
-                              className="mx-auto mb-4 size-28 overflow-hidden rounded-full border-4 transition-[filter] duration-300 group-hover:brightness-125 md:size-44 md:border-6"
-                              style={{ borderColor: '#6EA39E' }}
-                            >
-                              <Image
-                                className="scale-110"
-                                src="/img/icon-integration-automation.svg"
-                                alt="Integration & Automation"
-                                width={500}
-                                height={500}
-                                priority
-                              />
-                            </div>
-                            <h3 className="text-center">Integration & Automation</h3>
-                          </div>
-                        </Link>
-
-                        <Link to="/services/content-creation" className="group">
-                          <div>
-                            <div
-                              className="mx-auto mb-4 size-28 overflow-hidden rounded-full border-4 transition-[filter] duration-300 group-hover:brightness-125 md:size-44 md:border-6"
-                              style={{ borderColor: '#6EA39E' }}
-                            >
-                              <Image
-                                className="scale-110"
-                                src="/img/icon-content-creation.svg"
-                                alt="Content Creation"
-                                width={500}
-                                height={500}
-                                priority
-                              />
-                            </div>
-                            <h3 className="text-center">Content Creation</h3>
-                          </div>
-                        </Link>
-
-                        <Link to="/services/advertising-seo" className="group">
-                          <div>
-                            <div
-                              className="mx-auto mb-4 size-28 overflow-hidden rounded-full border-4 transition-[filter] duration-300 group-hover:brightness-125 md:size-44 md:border-6"
-                              style={{ borderColor: '#6EA39E' }}
-                            >
-                              <Image
-                                className="scale-110"
-                                src="/img/icon-advertising-seo.svg"
-                                alt="Advertising & SEO"
-                                width={500}
-                                height={500}
-                                priority
-                              />
-                            </div>
-                            <h3 className="text-center">Advertising & SEO</h3>
-                          </div>
-                        </Link>
+                          </Link>
+                        ))}
                       </div>
                     </div>
                   </div>

@@ -4,7 +4,6 @@ import Image from '@/lib/Image';
 
 // Add/remove brand entries here. First half = top row, second half = bottom row.
 const BRANDS = [
-  { src: '/img/brands/colossal.png', alt: 'Colossal Logo' },
   { src: '/img/brands/arnott.png', alt: 'Arnott Suspension Products Logo' },
   { src: '/img/brands/field-and-stream.png', alt: 'Field & Stream Logo' },
   { src: '/img/brands/hilton.png', alt: 'Hilton Logo' },
@@ -32,7 +31,7 @@ const BRANDS = [
   { src: '/img/brands/tap-root-fields.png', alt: 'Tap Root Fields Logo' },
 ];
 
-const ROW_SIZE = BRANDS.length / 2;
+const ROW_SIZE = Math.round(BRANDS.length / 2);
 
 const MARQUEE_DURATION_S = 90;
 const MIN_ITEMS_PER_SET = 14;

@@ -2,6 +2,16 @@ import Container from '@/components/Container';
 import { SEO } from '@/lib/SEO';
 import HeaderFix from '@/components/HeaderFix';
 import Image from '@/lib/Image';
+import keyWest from '@/assets/web-development/keywestcandleandbathco.jpg.asset.json';
+import tailwater from '@/assets/web-development/tailwaterlodge.jpg.asset.json';
+import mangrove from '@/assets/web-development/mangrovecustoms.jpg.asset.json';
+import milclean from '@/assets/web-development/milcleanusa.jpg.asset.json';
+import tapRootCannabis from '@/assets/web-development/taprootfieldscannabis.jpg.asset.json';
+import everglades from '@/assets/web-development/evergladesranch.jpg.asset.json';
+import allyn from '@/assets/web-development/allynlodge.jpg.asset.json';
+import marineDex from '@/assets/web-development/mymarinedex.jpg.asset.json';
+import castawayTx from '@/assets/web-development/castawaycustomstx.jpg.asset.json';
+import greatLakes from '@/assets/web-development/greatlakescastaway.jpg.asset.json';
 
 const mainPortfolioItems = [
   {
@@ -40,35 +50,55 @@ const mainPortfolioItems = [
     imageUrl:
       'https://cdn.builder.io/api/v1/image/assets%2F04a66a34a825475f879a3a1be1673b31%2F0df67398e46343a89598e84a4bcacccc',
   },
-];
-const otherPortfolioItems = [
+  {
+    title: 'Key West Candle & Bath Co.',
+    url: 'https://keywestcandleandbathco.com/',
+    imageUrl: keyWest.url,
+  },
+  {
+    title: 'Tailwater Lodge',
+    url: 'https://tailwaterlodge.com/',
+    imageUrl: tailwater.url,
+  },
+  {
+    title: 'Mangrove Customs',
+    url: 'https://mangrovecustoms.com/',
+    imageUrl: mangrove.url,
+  },
+  {
+    title: 'Milclean USA',
+    url: 'https://www.milcleanusa.com/',
+    imageUrl: milclean.url,
+  },
   {
     title: 'Tap Root Fields Cannabis',
     url: 'https://www.taprootfieldscannabis.com/',
+    imageUrl: tapRootCannabis.url,
   },
-  // {
-  //   title: 'Gold Tone Music Group',
-  //   url: 'https://goldtonemusicgroup.com/goldtone/',
-  // },
   {
     title: 'Everglades Ranch',
     url: 'https://evergladesranch.com/',
+    imageUrl: everglades.url,
   },
   {
     title: 'Allyn Lodge',
     url: 'https://allynlodge.com/',
+    imageUrl: allyn.url,
   },
   {
     title: 'MarineDex',
     url: 'https://mymarinedex.com/',
+    imageUrl: marineDex.url,
   },
   {
     title: 'Castaway Customs TX',
     url: 'https://www.castawaycustomstx.com/',
+    imageUrl: castawayTx.url,
   },
   {
     title: 'Great Lakes Castaway',
     url: 'https://greatlakescastaway.com/',
+    imageUrl: greatLakes.url,
   },
 ];
 
@@ -177,29 +207,20 @@ export default function WebDevelopment() {
           <h2 id="portfolio-heading" className="mt-3 text-4xl font-bold sm:text-5xl">
             Our Work
           </h2>
-          <div className="mt-4 grid grid-cols-2 gap-8">
+          <div className="mt-4 grid grid-cols-1 gap-8 sm:grid-cols-2">
             {mainPortfolioItems.map((item) => (
               <a href={item.url} target="_blank" rel="noopener noreferrer" key={item.title}>
                 <Image
                   src={item.imageUrl}
                   width={1920}
                   height={1080}
+                  className="aspect-video w-full object-cover"
                   alt={`Screenshot of website for ${item.title}`}
                 />
                 <h3 className="mt-2 text-center text-xl">{item.title}</h3>
               </a>
             ))}
           </div>
-          <h3 className="mt-8 text-2xl">More:</h3>
-          <ul>
-            {otherPortfolioItems.map((item) => (
-              <li key={item.title}>
-                <a href={item.url} className="font-header underline" target="_blank">
-                  {item.title}
-                </a>
-              </li>
-            ))}
-          </ul>
         </section>
       </Container>
     </div>

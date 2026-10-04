@@ -156,7 +156,7 @@ export default function ContentCreation() {
                   type="button"
                   onClick={() => setActiveCategory(cat)}
                   aria-pressed={isActive}
-                  className="rounded-full border px-5 py-2 text-sm font-semibold uppercase tracking-wide transition-colors"
+                  className="inline-flex items-center justify-center rounded-full border px-5 py-2 text-sm font-semibold uppercase tracking-wide leading-none transition-colors"
                   style={{
                     borderColor: isActive ? 'transparent' : 'currentColor',
                     background: isActive ? 'rgba(255, 255, 255, 0.12)' : 'transparent',

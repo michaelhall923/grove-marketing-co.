@@ -8,7 +8,6 @@ import mangrove from '@/assets/web-development/mangrovecustoms.jpg.asset.json';
 import milclean from '@/assets/web-development/milcleanusa.jpg.asset.json';
 import tapRootCannabis from '@/assets/web-development/taprootfieldscannabis.jpg.asset.json';
 import everglades from '@/assets/web-development/evergladesranch.jpg.asset.json';
-import allyn from '@/assets/web-development/allynlodge.jpg.asset.json';
 import marineDex from '@/assets/web-development/mymarinedex.jpg.asset.json';
 import castawayTx from '@/assets/web-development/castawaycustomstx.jpg.asset.json';
 import greatLakes from '@/assets/web-development/greatlakescastaway.jpg.asset.json';
@@ -79,11 +78,6 @@ const mainPortfolioItems = [
     title: 'Everglades Ranch',
     url: 'https://evergladesranch.com/',
     imageUrl: everglades.url,
-  },
-  {
-    title: 'Allyn Lodge',
-    url: 'https://allynlodge.com/',
-    imageUrl: allyn.url,
   },
   {
     title: 'MarineDex',

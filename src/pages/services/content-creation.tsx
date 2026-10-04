@@ -169,24 +169,29 @@ export default function ContentCreation() {
             })}
           </div>
 
-          {/* Category sections */}
-          {CATEGORIES.filter(
-            (cat) => activeCategory === 'All' || activeCategory === cat,
-          ).map((cat) => (
-            <div key={cat} className="mt-10" aria-labelledby={`category-${cat.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`}>
-              <h3 id={`category-${cat.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`} className="text-2xl font-bold sm:text-3xl">
-                {cat}
-              </h3>
+          {/* Category sections — all stay mounted (hidden, not unmounted) so videos never reload */}
+          {CATEGORIES.map((cat) => {
+            const isHidden = activeCategory !== 'All' && activeCategory !== cat;
+            return (
+              <div
+                key={cat}
+                className={isHidden ? 'hidden' : 'mt-10'}
+                aria-labelledby={`category-${cat.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`}
+              >
+                <h3 id={`category-${cat.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`} className="text-2xl font-bold sm:text-3xl">
+                  {cat}
+                </h3>
 
-              <div className="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                {videoItems
-                  .filter((v) => v.category === cat)
-                  .map((v) => (
-                    <VideoCard key={v.youtubeId} title={v.title} youtubeId={v.youtubeId} />
-                  ))}
+                <div className="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                  {videoItems
+                    .filter((v) => v.category === cat)
+                    .map((v) => (
+                      <VideoCard key={v.youtubeId} title={v.title} youtubeId={v.youtubeId} />
+                    ))}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </section>
 
         {/* Photography */}

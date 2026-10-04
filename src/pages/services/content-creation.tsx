@@ -6,6 +6,7 @@ import HeaderFix from '@/components/HeaderFix';
 import PhotoGallery from '@/components/PhotoGallery';
 
 const videoItems = [
+  { title: 'Field & Stream - Podcast', youtubeId: 'h6o8u8_3ueU' },
   { title: 'Arnott - Commercial', youtubeId: '_UGCFJG3sjM' },
   { title: 'SeaDek - Documentary', youtubeId: '9iou_PyBQgA' },
   { title: 'Field & Stream - Fishing Show', youtubeId: 'RIJ5HSehvtM' },
@@ -16,7 +17,6 @@ const videoItems = [
   { title: 'SeaDek - Interview', youtubeId: 'rsdT5cIE3as' },
   { title: 'Arnott - Commercial', youtubeId: 'Zla9HJIHEAQ' },
   { title: 'Arnott - Testimonial', youtubeId: 'RJYCXZmUtSI' },
-  { title: 'Field & Stream - Podcast', youtubeId: 'h6o8u8_3ueU' },
   { title: 'Big Wood Tree Service - Short Form Ad', youtubeId: 'xztnDpAUct8' },
   { title: 'Wedding Highlight Reel', youtubeId: 'tvMw1x19aRI' },
 ];

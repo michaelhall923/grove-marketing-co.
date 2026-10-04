@@ -1,24 +1,44 @@
 // pages/services/content-creation.tsx
 
+import { useState } from 'react';
 import Container from '@/components/Container';
 import { SEO } from '@/lib/SEO';
 import HeaderFix from '@/components/HeaderFix';
 import PhotoGallery from '@/components/PhotoGallery';
 
-const videoItems = [
-  { title: 'Field & Stream - Podcast', youtubeId: 'h6o8u8_3ueU' },
-  { title: 'Arnott - Commercial', youtubeId: '_UGCFJG3sjM' },
-  { title: 'SeaDek - Documentary', youtubeId: '9iou_PyBQgA' },
-  { title: 'Field & Stream - Fishing Show', youtubeId: 'RIJ5HSehvtM' },
-  { title: 'Yak Gear - Promo', youtubeId: 'iNR1BKNJVaY' },
-  { title: 'Arnott - Tutorial', youtubeId: 'RDWl6-OtWu0' },
-  { title: 'Legacy of Launch - Fundraising Campaign', youtubeId: 'mfXfDpgpaDY' },
-  { title: 'Field & Stream - Fishing Show', youtubeId: 'zQSfofIPOEk' },
-  { title: 'SeaDek - Interview', youtubeId: 'rsdT5cIE3as' },
-  { title: 'Arnott - Commercial', youtubeId: 'Zla9HJIHEAQ' },
-  { title: 'Arnott - Testimonial', youtubeId: 'RJYCXZmUtSI' },
-  { title: 'Big Wood Tree Service - Short Form Ad', youtubeId: 'xztnDpAUct8' },
-  { title: 'Wedding Highlight Reel', youtubeId: 'tvMw1x19aRI' },
+type VideoCategory =
+  | 'YouTube & Digital Series'
+  | 'Brand Stories'
+  | 'Commercials & Campaigns'
+  | 'Educational & Instructional';
+
+const CATEGORIES: VideoCategory[] = [
+  'YouTube & Digital Series',
+  'Brand Stories',
+  'Commercials & Campaigns',
+  'Educational & Instructional',
+];
+
+const videoItems: { title: string; youtubeId: string; category: VideoCategory }[] = [
+  // YouTube & Digital Series
+  { title: 'Field & Stream - Podcast', youtubeId: 'h6o8u8_3ueU', category: 'YouTube & Digital Series' },
+  { title: 'Field & Stream - Fishing Show', youtubeId: 'RIJ5HSehvtM', category: 'YouTube & Digital Series' },
+  { title: 'Field & Stream - Fishing Show', youtubeId: 'zQSfofIPOEk', category: 'YouTube & Digital Series' },
+
+  // Brand Stories
+  { title: 'SeaDek - Documentary', youtubeId: '9iou_PyBQgA', category: 'Brand Stories' },
+  { title: 'SeaDek - Interview', youtubeId: 'rsdT5cIE3as', category: 'Brand Stories' },
+  { title: 'Arnott - Testimonial', youtubeId: 'RJYCXZmUtSI', category: 'Brand Stories' },
+
+  // Commercials & Campaigns
+  { title: 'Arnott - Commercial', youtubeId: '_UGCFJG3sjM', category: 'Commercials & Campaigns' },
+  { title: 'Arnott - Commercial', youtubeId: 'Zla9HJIHEAQ', category: 'Commercials & Campaigns' },
+  { title: 'Yak Gear - Promo', youtubeId: 'iNR1BKNJVaY', category: 'Commercials & Campaigns' },
+  { title: 'Legacy of Launch - Fundraising Campaign', youtubeId: 'mfXfDpgpaDY', category: 'Commercials & Campaigns' },
+  { title: 'Big Wood Tree Service - Short Form Ad', youtubeId: 'xztnDpAUct8', category: 'Commercials & Campaigns' },
+
+  // Educational & Instructional
+  { title: 'Arnott - Tutorial', youtubeId: 'RDWl6-OtWu0', category: 'Educational & Instructional' },
 ];
 
 const photoItems = [
@@ -65,7 +85,33 @@ const photoItems = [
   },
 ];
 
+function VideoCard({ title, youtubeId }: { title: string; youtubeId: string }) {
+  return (
+    <div>
+      {/* 16:9 responsive iframe wrapper without relying on Tailwind aspect plugin */}
+      <div
+        className="relative h-0 w-full overflow-hidden rounded-xl"
+        style={{ paddingTop: '56.25%' }}
+      >
+        <iframe
+          className="absolute top-0 left-0 h-full w-full"
+          src={`https://www.youtube-nocookie.com/embed/${youtubeId}`}
+          title={title}
+          frameBorder="0"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          referrerPolicy="strict-origin-when-cross-origin"
+        />
+      </div>
+      <h3 className="mt-3 text-center text-xl">{title}</h3>
+    </div>
+  );
+}
+
 export default function ContentCreation() {
+  const [activeCategory, setActiveCategory] = useState<VideoCategory | 'All'>('All');
+
   return (
     <div
       className="min-h-[100vh]"
@@ -100,29 +146,47 @@ export default function ContentCreation() {
             Videography
           </h2>
 
-          <div className="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {videoItems.map((v) => (
-              <div key={v.title}>
-                {/* 16:9 responsive iframe wrapper without relying on Tailwind aspect plugin */}
-                <div
-                  className="relative h-0 w-full overflow-hidden rounded-xl"
-                  style={{ paddingTop: '56.25%' }}
+          {/* Category pills */}
+          <div className="mt-6 flex flex-wrap gap-3" role="group" aria-label="Filter videos by category">
+            {(['All', ...CATEGORIES] as const).map((cat) => {
+              const isActive = activeCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setActiveCategory(cat)}
+                  aria-pressed={isActive}
+                  className="rounded-full border px-5 py-2 text-sm font-semibold uppercase tracking-wide transition-colors"
+                  style={{
+                    borderColor: isActive ? 'transparent' : 'currentColor',
+                    background: isActive ? 'rgba(255, 255, 255, 0.12)' : 'transparent',
+                    color: 'currentColor',
+                  }}
                 >
-                  <iframe
-                    className="absolute top-0 left-0 h-full w-full"
-                    src={`https://www.youtube-nocookie.com/embed/${v.youtubeId}`}
-                    title={v.title}
-                    frameBorder="0"
-                    loading="lazy"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                    referrerPolicy="strict-origin-when-cross-origin"
-                  />
-                </div>
-                <h3 className="mt-3 text-center text-xl">{v.title}</h3>
-              </div>
-            ))}
+                  {cat}
+                </button>
+              );
+            })}
           </div>
+
+          {/* Category sections */}
+          {CATEGORIES.filter(
+            (cat) => activeCategory === 'All' || activeCategory === cat,
+          ).map((cat) => (
+            <div key={cat} className="mt-10" aria-labelledby={`category-${cat.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`}>
+              <h3 id={`category-${cat.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`} className="text-2xl font-bold sm:text-3xl">
+                {cat}
+              </h3>
+
+              <div className="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                {videoItems
+                  .filter((v) => v.category === cat)
+                  .map((v) => (
+                    <VideoCard key={v.youtubeId} title={v.title} youtubeId={v.youtubeId} />
+                  ))}
+              </div>
+            </div>
+          ))}
         </section>
 
         {/* Photography */}

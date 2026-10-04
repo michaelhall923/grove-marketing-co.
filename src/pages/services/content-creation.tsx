@@ -24,11 +24,16 @@ const videoItems: { title: string; youtubeId: string; category: VideoCategory }[
   { title: 'Field & Stream - Podcast', youtubeId: 'h6o8u8_3ueU', category: 'YouTube & Digital Series' },
   { title: 'Field & Stream - Fishing Show', youtubeId: 'RIJ5HSehvtM', category: 'YouTube & Digital Series' },
   { title: 'Field & Stream - Fishing Show', youtubeId: 'zQSfofIPOEk', category: 'YouTube & Digital Series' },
+  { title: 'Field & Stream - Fishing Show', youtubeId: 'kZdlFh2Fv-o', category: 'YouTube & Digital Series' },
+  { title: 'Field & Stream - Fishing Show', youtubeId: '3CsvRSgHUPM', category: 'YouTube & Digital Series' },
+  { title: 'Field & Stream - Hunting Show', youtubeId: 'KtbrNSFYEnY', category: 'YouTube & Digital Series' },
+  { title: 'Field & Stream - Crabbing Show', youtubeId: 'vMOYj-3H33Q', category: 'YouTube & Digital Series' },
 
   // Brand Stories
   { title: 'SeaDek - Documentary', youtubeId: '9iou_PyBQgA', category: 'Brand Stories' },
   { title: 'SeaDek - Interview', youtubeId: 'rsdT5cIE3as', category: 'Brand Stories' },
   { title: 'Arnott - Testimonial', youtubeId: 'RJYCXZmUtSI', category: 'Brand Stories' },
+  { title: 'Arnott - Testimonial', youtubeId: 'Yqiy3YTcjwQ', category: 'Brand Stories' },
 
   // Commercials & Campaigns
   { title: 'Arnott - Commercial', youtubeId: '_UGCFJG3sjM', category: 'Commercials & Campaigns' },
@@ -39,6 +44,10 @@ const videoItems: { title: string; youtubeId: string; category: VideoCategory }[
 
   // Educational & Instructional
   { title: 'Arnott - Tutorial', youtubeId: 'RDWl6-OtWu0', category: 'Educational & Instructional' },
+  { title: 'Arnott - Tutorial', youtubeId: '3ZR8-0gWcgA', category: 'Educational & Instructional' },
+  { title: 'Arnott - Tutorial', youtubeId: '0Mjh2pdk1-c', category: 'Educational & Instructional' },
+  { title: 'Arnott - Tutorial', youtubeId: '6EQphleLQCU', category: 'Educational & Instructional' },
+  { title: 'Arnott - Tutorial', youtubeId: 'ndYmimHFv6w', category: 'Educational & Instructional' },
 ];
 
 const photoItems = [
